@@ -5,32 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Shohmardon Taksi</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
-<body class="bg-gradient-to-b from-purple-700 to-purple-900 min-h-screen pb-12">
+<body class="bg-gradient-to-b from-purple-700 to-purple-900 min-h-screen p-6">
 
-  <div class="hero text-white py-8 text-center bg-gradient-to-r from-red-500 to-orange-500">
-    <h1 class="text-3xl font-bold">Shohmardon Taksi</h1>
-    <p>📞 +998 33 835 11 87</p>
-  </div>
-
-  <div class="max-w-md mx-auto mt-8 px-4">
-    <form id="taxiForm" class="bg-white p-6 rounded-3xl shadow-2xl space-y-6">
-      <!-- Form maydonlari qisqartirildi test uchun -->
-      <input type="text" id="from" placeholder="Qayerdan" value="Test" required class="w-full p-4 border rounded-xl">
-      <input type="text" id="to" placeholder="Qayerga" value="Test" required class="w-full p-4 border rounded-xl">
-      <input type="tel" id="phone" placeholder="Telefon" value="+998338351187" required class="w-full p-4 border rounded-xl">
-
+  <div class="max-w-md mx-auto bg-white rounded-3xl shadow-2xl p-6">
+    <h1 class="text-2xl font-bold text-center mb-6">Shohmardon Taksi - Test</h1>
+    
+    <form id="taxiForm" class="space-y-4">
+      <input type="text" id="phone" value="+998338351187" placeholder="Telefon" class="w-full p-4 border rounded-2xl">
       <button type="submit" id="submitBtn" 
         class="w-full bg-red-500 text-white py-5 rounded-2xl font-bold text-lg">
-        BUYURTMA YUBORISH
+        TEST XABAR YUBORISH
       </button>
     </form>
   </div>
 
   <script>
     const BOT_TOKEN = "8513993477:AAGtX_obhdOpswN_S_jLbfMvj9a4ppx7ORE";
-    const GROUP_ID = "-1003952071411";
+    const GROUP_ID = "-1003952071411";   // hozircha shu
 
     document.getElementById("taxiForm").addEventListener("submit", async function(e) {
       e.preventDefault();
@@ -39,13 +31,7 @@
       btn.disabled = true;
       btn.textContent = "Yuborilmoqda...";
 
-      const message = `
-🚖 <b>TEST BUYURTMA</b> 🚖
-📍 Qayerdan: Test
-🎯 Qayerga: Test
-📞 Telefon: +998338351187
-⏰ Vaqt: ${new Date().toLocaleTimeString('uz-UZ')}
-      `;
+      const message = `🚖 YANGI TEST BUYURTMA\n\nTelefon: +998338351187\nVaqt: ${new Date().toLocaleString('ru-RU')}\n\nTest xabari`;
 
       try {
         const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
@@ -53,26 +39,23 @@
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             chat_id: GROUP_ID,
-            text: message,
-            parse_mode: "HTML"
+            text: message
           })
         });
 
         const result = await response.json();
-        console.log("Telegram javobi:", result);   // Brauzer konsolida ko‘rinadi
+        console.log("Telegram javobi:", result);
 
         if (response.ok) {
-          alert("✅ Test muvaffaqiyatli yuborildi! Guruhni tekshiring.");
+          alert("✅ Yuborildi deb aytilmoqda!\nGuruhni yangilab ko'ring.");
         } else {
-          alert("❌ Telegram xatosi: " + (result.description || "Noma'lum"));
-          console.error("Xato:", result);
+          alert("❌ Xatolik: " + (result.description || "Noma'lum"));
         }
       } catch (err) {
-        alert("❌ Xatolik: " + err.message);
-        console.error(err);
+        alert("Internet xatosi: " + err.message);
       } finally {
         btn.disabled = false;
-        btn.textContent = "BUYURTMA YUBORISH";
+        btn.textContent = "TEST XABAR YUBORISH";
       }
     });
   </script>
