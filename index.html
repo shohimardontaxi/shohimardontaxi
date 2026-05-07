@@ -16,7 +16,6 @@
     .field-purple { background: linear-gradient(135deg, #e9d5ff, #d8b4fe); border: 2px solid #a855f7; }
     .field-orange { background: linear-gradient(135deg, #fed7aa, #fdba74); border: 2px solid #f97316; }
     .field-red { background: linear-gradient(135deg, #fecaca, #fca5a5); border: 2px solid #ef4444; }
-    .field:focus { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1); }
   </style>
 </head>
 <body class="bg-gradient-to-b from-purple-700 to-purple-900 min-h-screen pb-12">
@@ -36,11 +35,11 @@
   <div class="max-w-md mx-auto mt-8 px-4">
     <div class="bg-white rounded-3xl shadow-2xl overflow-hidden">
       <form id="taxiForm" class="p-6 space-y-6">
-
+        
         <!-- QAYERDAN -->
         <div>
           <label class="block text-xs font-bold text-blue-700 mb-1.5">📍 QAYERDAN</label>
-          <select id="from" required class="field field-blue w-full rounded-2xl px-5 py-4 text-gray-800 font-semibold">
+          <select id="from" required class="field-blue w-full rounded-2xl px-5 py-4 text-gray-800 font-semibold">
             <option value="">Tanlang</option>
             <option value="Shohmardon">Shohmardon</option>
             <option value="Farg'ona shahri">Farg'ona shahri</option>
@@ -55,7 +54,7 @@
         <!-- QAYERGA -->
         <div>
           <label class="block text-xs font-bold text-green-700 mb-1.5">🎯 QAYERGA</label>
-          <select id="to" required class="field field-green w-full rounded-2xl px-5 py-4 text-gray-800 font-semibold">
+          <select id="to" required class="field-green w-full rounded-2xl px-5 py-4 text-gray-800 font-semibold">
             <option value="">Tanlang</option>
             <option value="Shohmardon">Shohmardon</option>
             <option value="Farg'ona shahri">Farg'ona shahri</option>
@@ -71,30 +70,26 @@
           <p class="text-sm text-amber-700">Taxminiy narx: <span id="estimatedPrice" class="font-bold text-lg"></span></p>
         </div>
 
-        <!-- NECHA KISHI -->
+        <!-- Qolgan maydonlar -->
         <div>
           <label class="block text-xs font-bold text-yellow-700 mb-1.5">👥 NECHA KISHI?</label>
-          <input type="number" id="people" min="1" max="15" placeholder="Masalan: 3" required
-            class="field field-yellow w-full rounded-2xl px-5 py-4 text-gray-800 font-semibold">
+          <input type="number" id="people" min="1" max="15" placeholder="Masalan: 3" required class="field-yellow w-full rounded-2xl px-5 py-4 text-gray-800 font-semibold">
         </div>
 
-        <!-- SANA -->
         <div>
           <label class="block text-xs font-bold text-pink-700 mb-1.5">📅 KETISH SANASI</label>
-          <input type="date" id="date" required class="field field-pink w-full rounded-2xl px-5 py-4 text-gray-800 font-semibold">
+          <input type="date" id="date" required class="field-pink w-full rounded-2xl px-5 py-4 text-gray-800 font-semibold">
         </div>
 
-        <!-- VAQT -->
         <div>
-          <label class="block text-xs font-bold text-purple-700 mb-1.5">⏰ KETISH VAQTI (24 soat)</label>
+          <label class="block text-xs font-bold text-purple-700 mb-1.5">⏰ KETISH VAQTI</label>
           <input type="text" id="time" placeholder="14:30" required pattern="[0-2][0-9]:[0-5][0-9]"
-            class="field field-purple w-full rounded-2xl px-5 py-4 text-gray-800 font-semibold">
+            class="field-purple w-full rounded-2xl px-5 py-4 text-gray-800 font-semibold">
         </div>
 
-        <!-- MASHINA TURI -->
         <div>
           <label class="block text-xs font-bold text-orange-700 mb-1.5">🚗 MASHINA TURI</label>
-          <select id="car" required class="field field-orange w-full rounded-2xl px-5 py-4 text-gray-800 font-semibold">
+          <select id="car" required class="field-orange w-full rounded-2xl px-5 py-4 text-gray-800 font-semibold">
             <option value="">Tanlang</option>
             <option value="Yengil avtomobil">Yengil avtomobil</option>
             <option value="Damas">Damas</option>
@@ -103,15 +98,12 @@
           </select>
         </div>
 
-        <!-- TELEFON -->
         <div>
           <label class="block text-xs font-bold text-red-700 mb-1.5">📞 TELEFON RAQAM</label>
-          <input type="tel" id="phone" placeholder="+998 XX XXX XX XX" required
-            class="field field-red w-full rounded-2xl px-5 py-4 text-gray-800 font-semibold">
+          <input type="tel" id="phone" placeholder="+998 XX XXX XX XX" required class="field-red w-full rounded-2xl px-5 py-4 text-gray-800 font-semibold">
         </div>
 
-        <button type="submit" id="submitBtn"
-          class="w-full bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white font-bold py-5 rounded-2xl text-lg flex items-center justify-center gap-2 shadow-lg">
+        <button type="submit" id="submitBtn" class="w-full bg-gradient-to-r from-red-500 to-orange-500 text-white font-bold py-5 rounded-2xl text-lg flex items-center justify-center gap-2">
           <i class="fa-solid fa-paper-plane"></i> BUYURTMA YUBORISH
         </button>
       </form>
@@ -121,6 +113,13 @@
   <script>
     const BOT_TOKEN = "8513993477:AAGtX_obhdOpswN_S_jLbfMvj9a4ppx7ORE";
     const GROUP_ID = "-1003952071411";
+
+    // Sana formatlash funksiyasi (DD.MM.YYYY)
+    function formatDate(dateString) {
+      if (!dateString) return "Noma'lum";
+      const parts = dateString.split('-');
+      return `${parts[2]}.${parts[1]}.${parts[0]}`;
+    }
 
     // Narx taxmini
     const priceMap = {
@@ -146,7 +145,7 @@
     document.getElementById("from").addEventListener("change", updatePriceEstimate);
     document.getElementById("to").addEventListener("change", updatePriceEstimate);
 
-    // Form yuborish
+    // Buyurtma yuborish
     document.getElementById("taxiForm").addEventListener("submit", async function(e) {
       e.preventDefault();
 
@@ -159,11 +158,12 @@
 🚖 <b>YANGI BUYURTMA!</b> 🚖
 📍 <b>Qayerdan:</b> ${document.getElementById("from").value}
 🎯 <b>Qayerga:</b> ${document.getElementById("to").value}
-👥 <b>Kishi:</b> ${document.getElementById("people").value} nafar
-📅 <b>Sana:</b> ${document.getElementById("date").value}
+👥 <b>Kishi soni:</b> ${document.getElementById("people").value} nafar
+📅 <b>Sana:</b> ${formatDate(document.getElementById("date").value)}
 ⏰ <b>Vaqt:</b> ${document.getElementById("time").value}
 🚗 <b>Mashina:</b> ${document.getElementById("car").value}
 📞 <b>Telefon:</b> ${document.getElementById("phone").value}
+━━━━━━━━━━━━━━━━━
       `;
 
       try {
@@ -182,7 +182,7 @@
           this.reset();
           document.getElementById("priceEstimate").classList.add("hidden");
         } else {
-          alert("❌ Xatolik yuz berdi. Qayta urinib ko‘ring.");
+          alert("❌ Xatolik yuz berdi.");
         }
       } catch (error) {
         alert("❌ Internet aloqasi muammosi.");
