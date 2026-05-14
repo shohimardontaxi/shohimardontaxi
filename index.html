@@ -27,7 +27,7 @@
         <i class="fa-solid fa-car-side text-6xl"></i>
       </div>
       <h1 class="text-4xl font-bold">Shohmardon Taksi</h1>
-      <p class="mt-2 opacity-90">Farg‘ona viloyati — tez, ishonchli va qulay taksi xizmati</p>
+      <p class="mt-2 opacity-90">Farg'ona viloyati — tez, ishonchli va qulay taksi xizmati</p>
       <p class="mt-4 text-xl font-medium">📞 +998 33 835 11 87</p>
     </div>
   </div>
@@ -63,11 +63,6 @@
             <option value="Toshkent">Toshkent</option>
             <option value="Toshloq">Toshloq</option>
           </select>
-        </div>
-
-        <!-- Narx taxmini -->
-        <div id="priceEstimate" class="hidden bg-amber-50 border border-amber-200 rounded-2xl p-4 text-center">
-          <p class="text-sm text-amber-700">Taxminiy narx: <span id="estimatedPrice" class="font-bold text-lg"></span></p>
         </div>
 
         <!-- Qolgan maydonlar -->
@@ -121,30 +116,6 @@
       return `${parts[2]}.${parts[1]}.${parts[0]}`;
     }
 
-    // Narx taxmini
-    const priceMap = {
-      "Farg'ona shahri": { "Marg'ilon": 80000, "Qo'qon": 150000, "Toshkent": 450000, "Shohmardon": 70000 },
-      "Marg'ilon": { "Farg'ona shahri": 80000, "Qo'qon": 120000 },
-      "Shohmardon": { "Farg'ona shahri": 60000, "Marg'ilon": 90000, "Toshkent": 480000 }
-    };
-
-    function updatePriceEstimate() {
-      const from = document.getElementById("from").value;
-      const to = document.getElementById("to").value;
-      const estimateDiv = document.getElementById("priceEstimate");
-      const priceSpan = document.getElementById("estimatedPrice");
-
-      if (from && to && priceMap[from] && priceMap[from][to]) {
-        priceSpan.textContent = priceMap[from][to].toLocaleString('uz-UZ') + " so'm";
-        estimateDiv.classList.remove("hidden");
-      } else {
-        estimateDiv.classList.add("hidden");
-      }
-    }
-
-    document.getElementById("from").addEventListener("change", updatePriceEstimate);
-    document.getElementById("to").addEventListener("change", updatePriceEstimate);
-
     // Buyurtma yuborish
     document.getElementById("taxiForm").addEventListener("submit", async function(e) {
       e.preventDefault();
@@ -180,7 +151,6 @@
         if (response.ok) {
           alert("✅ Buyurtma muvaffaqiyatli yuborildi!\nTez orada aloqaga chiqamiz.");
           this.reset();
-          document.getElementById("priceEstimate").classList.add("hidden");
         } else {
           alert("❌ Xatolik yuz berdi.");
         }
